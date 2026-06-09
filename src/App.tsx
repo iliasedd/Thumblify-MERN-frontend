@@ -9,6 +9,7 @@ import Footer from "./components/Footer"
 import LenisScroll from "./components/LenisScroll"
 import Login from "./components/Login"
 import "./globals.css"
+import { Toaster } from "react-hot-toast"
 
 export default function App() {
   const { pathname } = useLocation()
@@ -19,6 +20,7 @@ export default function App() {
 
   return (
     <>
+      <Toaster />
       <LenisScroll />
       <Navbar />
 

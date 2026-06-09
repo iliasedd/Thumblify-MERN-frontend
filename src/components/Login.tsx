@@ -1,14 +1,22 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "../context/AuthContext"
 import SoftBackdrop from "./SoftBackdrop"
 
 export default function Login() {
   const [state, setState] = useState("login")
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   })
+
+  const { user, login, signUp } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (user) navigate("/")
+  }, [user])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -17,6 +25,12 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    if (state === "login") {
+      login(formData)
+    } else {
+      signUp(formData)
+    }
   }
 
   return (
