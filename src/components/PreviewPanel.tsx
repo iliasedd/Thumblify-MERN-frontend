@@ -27,7 +27,7 @@ const PreviewPanel = ({
             <Loader2Icon className="size-8 animate-spin text-zinc-400" />
             <div className="text-center">
               <p className="text-sm font-medium text-zinc-200">
-                AI is creating your thumbnail…
+                AI is creating your thumbnail...
               </p>
               <p className="mt-1 text-xs text-zinc-400">
                 This may take 10-20 seconds
