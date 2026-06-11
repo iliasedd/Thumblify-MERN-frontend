@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { LockIcon, MailIcon, UserIcon } from "lucide-react"
 import { useAuth } from "../context/AuthContext"
-import SoftBackdrop from "./SoftBackdrop"
+import SoftBackdrop from "../components/SoftBackdrop"
 
 export default function Login() {
   const [state, setState] = useState("login")
@@ -52,22 +53,7 @@ export default function Login() {
 
           {state !== "login" && (
             <div className="flex items-center mt-6 w-full bg-white/5 ring-2 ring-white/10 focus-within:ring-pink-500/60 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                className="text-white/60"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                {" "}
-                <circle cx="12" cy="8" r="5" />{" "}
-                <path d="M20 21a8 8 0 0 0-16 0" />{" "}
-              </svg>
+              <UserIcon size={16} className="text-white/60" />
               <input
                 type="text"
                 name="name"
@@ -81,22 +67,7 @@ export default function Login() {
           )}
 
           <div className="flex items-center w-full mt-4 bg-white/5 ring-2 ring-white/10 focus-within:ring-pink-500/60 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              className="text-white/75"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              {" "}
-              <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />{" "}
-              <rect x="2" y="4" width="20" height="16" rx="2" />{" "}
-            </svg>
+            <MailIcon size={14} className="text-white/75" />
             <input
               type="email"
               name="email"
@@ -109,22 +80,7 @@ export default function Login() {
           </div>
 
           <div className=" flex items-center mt-4 w-full bg-white/5 ring-2 ring-white/10 focus-within:ring-pink-500/60 h-12 rounded-full overflow-hidden pl-6 gap-2 transition-all ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              className="text-white/75"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              {" "}
-              <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />{" "}
-              <path d="M7 11V7a5 5 0 0 1 10 0v4" />{" "}
-            </svg>
+            <LockIcon size={14} className="text-white/75" />
             <input
               type="password"
               name="password"
@@ -138,7 +94,7 @@ export default function Login() {
 
           <div className="mt-4 text-left">
             <button className="text-sm text-pink-400 hover:underline">
-              Forget password?
+              Forgot password?
             </button>
           </div>
 

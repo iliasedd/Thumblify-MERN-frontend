@@ -1,35 +1,22 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import React, { createContext, useContext, useState } from "react"
 import toast from "react-hot-toast"
-import type { IUser } from "../assets/assets"
 import api from "../configs/api"
+import type { IUser, AuthContextType } from "../types"
 
-interface AuthContextProps {
-  isLoggedIn: boolean
-  setIsLoggedIn: (isLoggedIn: boolean) => void
-  user: IUser | null
-  setUser: (user: IUser | null) => void
-  login: (user: { email: string; password: string }) => Promise<void>
-  signUp: (user: {
-    name: string
-    email: string
-    password: string
-  }) => Promise<void>
-  logout: () => Promise<void>
-}
-
-const AuthContext = createContext<AuthContextProps>({
+const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
-  setIsLoggedIn: () => {},
   user: null,
+  setIsLoggedIn: () => {},
   setUser: () => {},
   login: async () => {},
   signUp: async () => {},
   logout: async () => {},
+  fetchUser: async () => {},
 })
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<IUser | null>(null)
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+  const [user, setUser] = useState<IUser | null>(() => init("user"))
+  const [isLoggedIn, setIsLoggedIn] = useState(() => init("isLoggedIn"))
 
   const signUp = async ({
     name,
@@ -46,10 +33,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         email,
         password,
       })
+
       if (data.user) {
         setUser(data.user as IUser)
         setIsLoggedIn(true)
+        localStorage.setItem("user", JSON.stringify(data.user))
       }
+
       toast.success(data.message)
     } catch (error) {
       console.log(error)
@@ -65,10 +55,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }) => {
     try {
       const { data } = await api.post("/api/auth/login", { email, password })
+
       if (data.user) {
         setUser(data.user as IUser)
         setIsLoggedIn(true)
+        localStorage.setItem("user", JSON.stringify(data.user))
       }
+
       toast.success(data.message)
     } catch (error) {
       console.log(error)
@@ -78,31 +71,39 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = async () => {
     try {
       const { data } = await api.post("/api/auth/logout")
+
       setUser(null)
       setIsLoggedIn(false)
+      localStorage.removeItem("user")
+
       toast.success(data.message)
     } catch (error) {
       console.log(error)
     }
   }
 
-  const fetchUser = async () => {
-    try {
-      const { data } = await api.get("/api/auth/verify")
-      if (data.user) {
-        setUser(data.user as IUser)
-        setIsLoggedIn(true)
+  async function fetchUser() {
+    const storedUser = localStorage.getItem("user")
+
+    if (storedUser) {
+      const user = JSON.parse(storedUser)
+
+      setUser(user as IUser)
+      setIsLoggedIn(true)
+    } else {
+      try {
+        const { data } = await api.get("/api/auth/verify")
+
+        if (data.user) {
+          setUser(data.user as IUser)
+          setIsLoggedIn(true)
+          localStorage.setItem("user", JSON.stringify(data.user))
+        }
+      } catch (error) {
+        console.log(error)
       }
-    } catch (error) {
-      console.log(error)
     }
   }
-
-  useEffect(() => {
-    ;(async () => {
-      await fetchUser()
-    })()
-  }, [])
 
   const value = {
     user,
@@ -112,9 +113,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     signUp,
     login,
     logout,
+    fetchUser,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 export const useAuth = () => useContext(AuthContext)
+
+function init(user: any) {
+  const storedUser = localStorage.getItem("user")
+
+  if (user == "user") {
+    return storedUser ? JSON.parse(storedUser) : null
+  } else {
+    return storedUser ? true : false
+  }
+}

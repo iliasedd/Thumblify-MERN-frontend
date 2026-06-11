@@ -1,24 +1,42 @@
-import { colorSchemes } from '../assets/assets';
+import { colorSchemes } from "../data/data"
+import type { ColorScheme } from "../types"
 
-const ColorSchemeSelector = ({ value, onChange }: { value: string; onChange: (color: string) => void }) => {
-    return (
-        <div className='space-y-3'>
-            <label className='block text-sm font-medium text-zinc-200'>Color Scheme</label>
+export default function ColorSchemeSelector({
+  value,
+  onChange,
+}: {
+  value: string
+  onChange: (value: ColorScheme) => void
+}) {
+  return (
+    <div className="space-y-3">
+      <label className="block text-sm font-medium text-zinc-200">
+        Color Scheme
+      </label>
 
-            <div className='grid grid-cols-6 gap-3'>
-                {colorSchemes.map((scheme) => (
-                    <button key={scheme.id} onClick={() => onChange(scheme.id)} className={`relative rounded-lg transition-all ${value === scheme.id && 'ring-2 ring-pink-500'}`} title={scheme.name}>
-                        <div className='flex h-10 rounded-lg overflow-hidden'>
-                            {scheme.colors.map((color, i) => (
-                                <div key={i} className='flex-1' style={{ backgroundColor: color }} />
-                            ))}
-                        </div>
-                    </button>
-                ))}
+      <div className="grid grid-cols-6 gap-3">
+        {colorSchemes.map(({ id, name, colors }) => (
+          <button
+            key={id}
+            onClick={() => onChange(id)}
+            className={`relative rounded-lg transition-all ${value === id && "ring-2 ring-pink-500"}`}
+            title={name}
+          >
+            <div className="flex h-10 rounded-lg overflow-hidden">
+              {colors.map((color, i) => (
+                <div
+                  key={i}
+                  className="flex-1"
+                  style={{ backgroundColor: color }}
+                />
+              ))}
             </div>
-            <p className='text-xs text-zinc-400'>Selected: {colorSchemes.find((s) => s.id === value)?.name}</p>
-        </div>
-    );
-};
-
-export default ColorSchemeSelector;
+          </button>
+        ))}
+      </div>
+      <p className="text-xs text-zinc-400">
+        Selected: {colorSchemes.find(({ id }) => id === value)?.name}
+      </p>
+    </div>
+  )
+}

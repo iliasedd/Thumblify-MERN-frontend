@@ -1,5 +1,3 @@
-import React from "react"
-
 export default function SoftBackdrop() {
   return (
     <div className="fixed inset-0 -z-1 pointer-events-none">

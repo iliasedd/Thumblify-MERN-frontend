@@ -1,9 +1,7 @@
-"use client"
-import SectionTitle from "../components/SectionTitle"
 import { ArrowUpRight } from "lucide-react"
 import { motion } from "motion/react"
-import { featuresData } from "../data/features"
-import type { IFeature } from "../types"
+import SectionTitle from "../components/SectionTitle"
+import { featuresData } from "../data/data"
 
 export default function FeaturesSection() {
   return (
@@ -14,7 +12,7 @@ export default function FeaturesSection() {
         text3="Create stunning thumbnails that get clicks, without the hassle."
       />
       <div className="flex flex-wrap items-center justify-center gap-6 md:gap-4 mt-16 px-6">
-        {featuresData.map((feature: IFeature, index: number) => (
+        {featuresData.map(({ icon, title, description }, index) => (
           <motion.div
             key={index}
             className={`${index === 1 ? "p-px rounded-[13px] bg-linear-to-br from-pink-600 to-slate-800" : ""}`}
@@ -30,13 +28,9 @@ export default function FeaturesSection() {
             }}
           >
             <div className="p-6 rounded-xl space-y-4 border border-slate-800 bg-slate-950 max-w-80 w-full">
-              {feature.icon}
-              <h3 className="text-base font-medium text-white">
-                {feature.title}
-              </h3>
-              <p className="text-slate-400 line-clamp-2 pb-4">
-                {feature.description}
-              </p>
+              <img src={icon} alt={title} />
+              <h3 className="text-base font-medium text-white">{title}</h3>
+              <p className="text-slate-400 line-clamp-2 pb-4">{description}</p>
             </div>
           </motion.div>
         ))}
@@ -68,7 +62,7 @@ export default function FeaturesSection() {
           >
             <img
               className="h-full w-auto"
-              src="/assets/features-showcase-1.png"
+              src="/features-showcase-1.png"
               alt="features showcase"
               width={1000}
               height={500}
@@ -88,7 +82,7 @@ export default function FeaturesSection() {
             }}
           >
             <img
-              src="/assets/features-showcase-2.png"
+              src="/features-showcase-2.png"
               alt="features showcase"
               width={1000}
               height={500}

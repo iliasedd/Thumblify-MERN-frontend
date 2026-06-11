@@ -1,22 +1,28 @@
 import { useEffect } from "react"
 import { Route, Routes, useLocation } from "react-router-dom"
-import HomePage from "./pages/HomePage"
+import { Toaster } from "react-hot-toast"
+import HomePage from "./pages/Home"
 import Generate from "./pages/Generate"
-import MyGeneration from "./pages/MyGeneration"
+import MyGenerations from "./pages/MyGenerations"
+import Login from "./pages/Login"
 import YTPreview from "./pages/YTPreview"
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 import LenisScroll from "./components/LenisScroll"
-import Login from "./components/Login"
+import { useAuth } from "./context/AuthContext"
 import "./globals.css"
-import { Toaster } from "react-hot-toast"
 
 export default function App() {
   const { pathname } = useLocation()
+  const { fetchUser } = useAuth()
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [pathname])
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
 
   return (
     <>
@@ -26,11 +32,11 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/generate" element={<Generate />} />
         <Route path="/generate/:id" element={<Generate />} />
-        <Route path="/my-generation" element={<MyGeneration />} />
+        <Route path="/my-generations" element={<MyGenerations />} />
         <Route path="/preview" element={<YTPreview />} />
-        <Route path="/login" element={<Login />} />
       </Routes>
 
       <Footer />

@@ -1,13 +1,12 @@
-import { footerData } from "../data/footer"
+import { Link } from "react-router-dom"
+import { motion } from "motion/react"
 import {
   DribbbleIcon,
   LinkedinIcon,
   TwitterIcon,
   YoutubeIcon,
 } from "lucide-react"
-import { motion } from "motion/react"
-import type { IFooterLink } from "../types"
-import { Link } from "react-router-dom"
+import { footerData } from "../data/data"
 
 export default function Footer() {
   return (
@@ -28,17 +27,15 @@ export default function Footer() {
             height={32}
           />
         </Link>
-        {footerData.map((section, index) => (
+
+        {footerData.map(({ title, links }, index) => (
           <div key={index}>
-            <p className="text-slate-100 font-semibold">{section.title}</p>
+            <p className="text-slate-100 font-semibold">{title}</p>
             <ul className="mt-2 space-y-2">
-              {section.links.map((link: IFooterLink, index: number) => (
+              {links.map(({ href, name }, index) => (
                 <li key={index}>
-                  <Link
-                    to={link.href}
-                    className="hover:text-pink-600 transition"
-                  >
-                    {link.name}
+                  <Link to={href} className="hover:text-pink-600 transition">
+                    {name}
                   </Link>
                 </li>
               ))}
@@ -46,6 +43,7 @@ export default function Footer() {
           </div>
         ))}
       </motion.div>
+
       <motion.div
         className="flex flex-col max-md:items-center max-md:text-center gap-2 items-end"
         initial={{ x: 150, opacity: 0 }}
@@ -56,14 +54,16 @@ export default function Footer() {
         <p className="max-w-60">
           Making every customer feel valued—no matter the size of your audience.
         </p>
+
         <div className="flex items-center gap-4 mt-3">
           <DribbbleIcon className="size-5 hover:text-pink-500" />
           <LinkedinIcon className="size-5 hover:text-pink-500" />
           <TwitterIcon className="size-5 hover:text-pink-500" />
           <YoutubeIcon className="size-6 hover:text-pink-500" />
         </div>
+
         <p className="mt-3 text-center">
-          &copy; {new Date().getFullYear()} <span>Thumblify</span>
+          &copy; {new Date().getFullYear()} Thumblify
         </p>
       </motion.div>
     </footer>

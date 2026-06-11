@@ -1,6 +1,5 @@
-"use client"
-import { motion } from "motion/react"
 import { useNavigate } from "react-router-dom"
+import { motion } from "motion/react"
 
 export default function CTASection() {
   const navigate = useNavigate()

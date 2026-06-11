@@ -1,12 +1,12 @@
 import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import { MenuIcon, XIcon } from "lucide-react"
 import { motion } from "motion/react"
-import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 
 export default function Navbar() {
-  const { isLoggedIn, user, logout } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
+  const { isLoggedIn, user, logout } = useAuth()
   const navigate = useNavigate()
 
   return (
@@ -18,10 +18,12 @@ export default function Navbar() {
         viewport={{ once: true }}
         transition={{ type: "spring", stiffness: 250, damping: 70, mass: 1 }}
       >
+        {/* logo */}
         <Link to="/">
           <img src="/logo.svg" alt="logo" className="h-8.5 w-auto" />
         </Link>
 
+        {/* nav */}
         <div className="hidden md:flex items-center gap-8 transition duration-500">
           <Link to="/" className="hover:text-pink-300 transition">
             Home
@@ -32,7 +34,7 @@ export default function Navbar() {
 
           {isLoggedIn ? (
             <Link
-              to="/my-generation"
+              to="/my-generations"
               className="hover:text-pink-300 transition"
             >
               My Generations
@@ -44,35 +46,42 @@ export default function Navbar() {
           )}
         </div>
 
-        {isLoggedIn ? (
-          <div className="relative group">
-            <button className="rounded-full size-8 bg-white/20 border-2 border-white/10">
-              {user?.name.charAt(0).toUpperCase()}
-            </button>
-
-            <div className="absolute hidden group-hover:block top-6 right-0 pt-4">
-              <button
-                onClick={() => logout()}
-                className=" bg-white/20 border-2 border-white/10 px-5 py-1.5 rounded"
-              >
-                Logout
+        {/* avatar/button */}
+        <div className="flex items-center gap-2">
+          {isLoggedIn ? (
+            <div className="relative group">
+              <button className="rounded-full size-8 bg-white/20 border-2 border-white/10">
+                {user?.name.charAt(0).toUpperCase()}
               </button>
-            </div>
-          </div>
-        ) : (
-          <button
-            onClick={() => navigate("/login")}
-            className="hidden md:block px-6 py-2.5 bg-pink-600 hover:bg-pink-700 active:scale-95 transition-all rounded-full"
-          >
-            Get Started
-          </button>
-        )}
 
-        <button onClick={() => setIsOpen(true)} className="md:hidden">
-          <MenuIcon size={26} className="active:scale-90 transition" />
-        </button>
+              <div className="absolute hidden group-hover:block top-6 right-0 pt-4">
+                <button
+                  onClick={() => {
+                    logout()
+                    navigate("/")
+                  }}
+                  className=" bg-white/20 border-2 border-white/10 px-5 py-1.5 rounded"
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button
+              onClick={() => navigate("/login")}
+              className="hidden md:block px-6 py-2.5 bg-pink-600 hover:bg-pink-700 active:scale-95 transition-all rounded-full"
+            >
+              Get Started
+            </button>
+          )}
+
+          <button onClick={() => setIsOpen(true)} className="md:hidden">
+            <MenuIcon size={26} className="active:scale-90 transition" />
+          </button>
+        </div>
       </motion.nav>
 
+      {/* mobile menu */}
       <div
         className={`fixed inset-0 z-100 bg-black/40 backdrop-blur flex flex-col items-center justify-center text-lg gap-8 md:hidden transition-transform duration-400 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
@@ -84,7 +93,7 @@ export default function Navbar() {
         </Link>
 
         {isLoggedIn ? (
-          <Link onClick={() => setIsOpen(false)} to="/my-generation">
+          <Link onClick={() => setIsOpen(false)} to="/my-generations">
             My Generations
           </Link>
         ) : (
@@ -98,6 +107,7 @@ export default function Navbar() {
             onClick={() => {
               setIsOpen(false)
               logout()
+              navigate("/")
             }}
           >
             Logout
