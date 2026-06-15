@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { DownloadIcon, TrashIcon } from "lucide-react"
+import { Link, useNavigate } from "react-router-dom"
+import { ArrowUpRightIcon, DownloadIcon, TrashIcon } from "lucide-react"
 import toast from "react-hot-toast"
 import SoftBackdrop from "../components/SoftBackdrop"
 import { useAuth } from "../context/AuthContext"
@@ -172,6 +172,15 @@ export default function MyGenerations() {
                         onClick={() => downloadThumbnail(image!)}
                         className="size-6 bg-black/50 p-1 rounded hover:bg-pink-600 transition-all"
                       />
+                      <Link
+                        target="_blank"
+                        to={`/preview?title=${title}`}
+                        onClick={() => {
+                          localStorage.setItem("base64", image!)
+                        }}
+                      >
+                        <ArrowUpRightIcon className="size-6 bg-black/50 p-1 rounded hover:bg-pink-600 transition-all" />
+                      </Link>
                     </div>
                   </div>
                 )
