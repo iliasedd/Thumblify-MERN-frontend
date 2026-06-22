@@ -1,51 +1,34 @@
-import { useRef, useState } from "react"
+import { useRef } from "react"
 import { motion, useMotionValue, useSpring } from "motion/react"
 
 const springValues = {
   damping: 30,
   stiffness: 100,
-  mass: 2,
+  mass: 1,
 }
 
 export default function TiltedImage({ rotateAmplitude = 3 }) {
   const ref = useRef<HTMLDivElement>(null)
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
   const rotateX = useSpring(useMotionValue(0), springValues)
   const rotateY = useSpring(useMotionValue(0), springValues)
-  const rotateFigcaption = useSpring(0, {
-    stiffness: 350,
-    damping: 30,
-    mass: 1,
-  })
 
-  const [lastY, setLastY] = useState(0)
-
-  function handleMouse(e: any) {
+  function handleMouse(e: React.MouseEvent<HTMLElement, MouseEvent>) {
     if (!ref.current) return
 
     const rect = ref.current.getBoundingClientRect()
     const offsetX = e.clientX - rect.left - rect.width / 2
     const offsetY = e.clientY - rect.top - rect.height / 2
 
-    const rotationX = (offsetY / (rect.height / 2)) * -rotateAmplitude
+    const rotationX = (offsetY / (rect.height / 2)) * rotateAmplitude
     const rotationY = (offsetX / (rect.width / 2)) * rotateAmplitude
 
     rotateX.set(rotationX)
     rotateY.set(rotationY)
-
-    x.set(e.clientX - rect.left)
-    y.set(e.clientY - rect.top)
-
-    const velocityY = offsetY - lastY
-    rotateFigcaption.set(-velocityY * 0.6)
-    setLastY(offsetY)
   }
 
   function handleMouseLeave() {
     rotateX.set(0)
     rotateY.set(0)
-    rotateFigcaption.set(0)
   }
 
   return (
@@ -63,7 +46,7 @@ export default function TiltedImage({ rotateAmplitude = 3 }) {
         className="relative transform-3d w-full max-w-4xl"
         style={{ rotateX, rotateY }}
       >
-        <motion.img
+        <img
           src="/hero_img.png"
           className="borderb bg-linear-180 from-pink-500 to-transparent p-1 w-full rounded-[15px] will-change-transform transform-[translateZ(0)]"
           alt="hero section showcase"

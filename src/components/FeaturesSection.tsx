@@ -11,6 +11,7 @@ export default function FeaturesSection() {
         text2="Why use our generator ?"
         text3="Create stunning thumbnails that get clicks, without the hassle."
       />
+
       <div className="flex flex-wrap items-center justify-center gap-6 md:gap-4 mt-16 px-6">
         {featuresData.map(({ icon, title, description }, index) => (
           <motion.div
@@ -35,8 +36,10 @@ export default function FeaturesSection() {
           </motion.div>
         ))}
       </div>
+
       <div className="mt-40 relative mx-auto max-w-5xl">
         <div className="absolute -z-50 size-100 -top-10 -left-20 aspect-square rounded-full bg-pink-500/40 blur-3xl"></div>
+
         <motion.p
           className="text-slate-300 text-lg text-left max-w-3xl"
           initial={{ y: 150, opacity: 0 }}
@@ -47,6 +50,7 @@ export default function FeaturesSection() {
           Our AI understands what makes a video go viral and designs thumbnails
           accordingly.
         </motion.p>
+
         <div className="grid grid-cols-1 md:grid-cols-3 mt-8 gap-10">
           <motion.div
             className="md:col-span-2"
@@ -68,6 +72,7 @@ export default function FeaturesSection() {
               height={500}
             />
           </motion.div>
+
           <motion.div
             className="md:col-span-1"
             initial={{ y: 150, opacity: 0 }}
@@ -99,7 +104,7 @@ export default function FeaturesSection() {
               href="#"
               className="group flex items-center gap-2 mt-4 text-pink-600 hover:text-pink-700 transition"
             >
-              Start generating for free
+              Start generating
               <ArrowUpRight className="size-5 group-hover:translate-x-0.5 transition duration-300" />
             </a>
           </motion.div>

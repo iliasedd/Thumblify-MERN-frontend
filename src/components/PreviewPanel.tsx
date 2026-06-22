@@ -18,62 +18,71 @@ export default function PreviewPanel({
   }
 
   return (
-    <div className="relative mx-auto w-full max-w-2xl">
-      <div className={`relative overflow-hidden ${aspectClasses[aspectRatio]}`}>
-        {/* Loading state */}
-        {isLoading && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/25">
-            <Loader2Icon className="size-8 animate-spin text-zinc-400" />
-            <div className="text-center">
-              <p className="text-sm font-medium text-zinc-200">
-                AI is creating your thumbnail...
-              </p>
-              <p className="mt-1 text-xs text-zinc-400">
-                This may take 10-20 seconds
-              </p>
-            </div>
+    <div>
+      <div className="p-3 rounded-2xl bg-white/8 border border-white/10 shadow-xl">
+        <h2 className="text-lg font-semibold text-zinc-100 mb-4 mt-2">
+          Preview
+        </h2>
+
+        <div className="relative mx-auto w-full max-w-2xl">
+          <div
+            className={`relative overflow-hidden ${aspectClasses[aspectRatio]}`}
+          >
+            {/* Loading state */}
+            {isLoading && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/25">
+                <Loader2Icon className="size-8 animate-spin text-zinc-400" />
+                <div className="text-center">
+                  <p className="text-sm font-medium text-zinc-200">
+                    AI is creating your thumbnail...
+                  </p>
+                  <p className="mt-1 text-xs text-zinc-400">
+                    This may take 10-20 seconds
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Image preview */}
+            {!isLoading && thumbnail?.image && (
+              <div className="group relative h-full w-full">
+                <img
+                  src={thumbnail?.image}
+                  alt={thumbnail.title}
+                  className="h-full w-full object-cover border border-white/18 rounded-lg"
+                />
+
+                <div className="absolute inset-0 flex items-end justify-center bg-black/10 opacity-0 transition-opacity group-hover:opacity-100">
+                  <button
+                    onClick={() => download()}
+                    type="button"
+                    className="mb-6 flex items-center gap-2 rounded-md px-5 py-2.5 text-xs font-medium transition bg-white/30 ring-2 ring-white/40 backdrop-blur hover:scale-105 active:scale-95"
+                  >
+                    <DownloadIcon className="size-4" /> Download Thumbnail
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Empty state */}
+            {!isLoading && !thumbnail?.image && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-white/20 bg-black/25">
+                <div className="max-sm:hidden flex size-20 items-center justify-center rounded-full bg-white/10">
+                  <ImageIcon className="size-10 text-white opacity-50" />
+                </div>
+
+                <div className="px-4 text-center">
+                  <p className="font text-zinc-200">
+                    Generate your first thumbnail
+                  </p>
+                  <p className="mt-1 text-xs text-zinc-400">
+                    Fill out the form and click Generate
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
-        )}
-
-        {/* Image preview */}
-        {!isLoading && thumbnail?.image && (
-          <div className="group relative h-full w-full">
-            <img
-              src={thumbnail?.image}
-              alt={thumbnail.title}
-              className="h-full w-full object-cover"
-            />
-
-            <div className="absolute inset-0 flex items-end justify-center bg-black/10 opacity-0 transition-opacity group-hover:opacity-100">
-              <button
-                onClick={() => download()}
-                type="button"
-                className="mb-6 flex items-center gap-2 rounded-md px-5 py-2.5 text-xs font-medium transition bg-white/30 ring-2 ring-white/40 backdrop-blur hover:scale-105 active:scale-95"
-              >
-                <DownloadIcon className="size-4" />
-                Download Thumbnail
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Empty state */}
-        {!isLoading && !thumbnail?.image && (
-          <div className="absolute inset-0 m-2 flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-white/20 bg-black/25">
-            <div className="max-sm:hidden flex size-20 items-center justify-center rounded-full bg-white/10">
-              <ImageIcon className="size-10 text-white opacity-50" />
-            </div>
-
-            <div className="px-4 text-center">
-              <p className="font text-zinc-200">
-                Generate your first thumbnail
-              </p>
-              <p className="mt-1 text-xs text-zinc-400">
-                Fill out the form and click Generate
-              </p>
-            </div>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   )

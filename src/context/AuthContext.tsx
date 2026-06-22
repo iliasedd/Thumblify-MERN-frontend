@@ -15,8 +15,8 @@ const AuthContext = createContext<AuthContextType>({
 })
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<IUser | null>(() => init("user"))
-  const [isLoggedIn, setIsLoggedIn] = useState(() => init("isLoggedIn"))
+  const [user, setUser] = useState<IUser | null>(() => init().user)
+  const [isLoggedIn, setIsLoggedIn] = useState(() => init().isLoggedIn)
 
   const signUp = async ({
     name,
@@ -41,8 +41,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       toast.success(data.message)
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
+      toast.error(error?.response?.data?.message || error?.message)
     }
   }
 
@@ -63,8 +64,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       toast.success(data.message)
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
+      toast.error(error?.response?.data?.message || error?.message)
     }
   }
 
@@ -77,8 +79,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.removeItem("user")
 
       toast.success(data.message)
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
+      toast.error(error?.response?.data?.message || error?.message)
     }
   }
 
@@ -90,18 +93,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       setUser(user as IUser)
       setIsLoggedIn(true)
-    } else {
-      try {
-        const { data } = await api.get("/api/auth/verify")
+      return
+    }
 
-        if (data.user) {
-          setUser(data.user as IUser)
-          setIsLoggedIn(true)
-          localStorage.setItem("user", JSON.stringify(data.user))
-        }
-      } catch (error) {
-        console.log(error)
+    try {
+      const { data } = await api.get("/api/auth/verify")
+
+      if (data.user) {
+        setUser(data.user as IUser)
+        setIsLoggedIn(true)
+        localStorage.setItem("user", JSON.stringify(data.user))
       }
+    } catch (error: any) {
+      console.log(error)
     }
   }
 
@@ -121,12 +125,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const useAuth = () => useContext(AuthContext)
 
-function init(user: any) {
+function init() {
   const storedUser = localStorage.getItem("user")
 
-  if (user == "user") {
-    return storedUser ? JSON.parse(storedUser) : null
-  } else {
-    return storedUser ? true : false
-  }
+  return storedUser
+    ? { user: JSON.parse(storedUser), isLoggedIn: true }
+    : { user: null, isLoggedIn: false }
 }

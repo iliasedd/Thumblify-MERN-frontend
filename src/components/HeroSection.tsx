@@ -1,4 +1,4 @@
-import { CheckIcon, VideoIcon } from "lucide-react"
+import { CheckIcon } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { motion } from "motion/react"
 import TiltedImage from "../components/TiltImage"
@@ -28,6 +28,7 @@ export default function HeroSection() {
           Videos
         </span>
       </motion.h1>
+
       <motion.p
         className="text-base text-center text-slate-200 max-w-lg mt-6"
         initial={{ y: 50, opacity: 0 }}
@@ -44,6 +45,7 @@ export default function HeroSection() {
         Stop wasting hours on design. Get high-converting thumbnails in seconds
         with our advanced AI.
       </motion.p>
+
       <motion.div
         className="flex items-center gap-4 mt-8"
         initial={{ y: 50, opacity: 0 }}
@@ -57,11 +59,6 @@ export default function HeroSection() {
         >
           Generate now
         </button>
-
-        {/* <button className="flex items-center gap-2 border border-pink-900 hover:bg-pink-950/50 transition rounded-full px-6 h-11">
-          <VideoIcon strokeWidth={1} />
-          <span>See how it works</span>
-        </button> */}
       </motion.div>
 
       <div className="flex flex-wrap justify-center items-center gap-4 md:gap-14 mt-12">
@@ -79,6 +76,7 @@ export default function HeroSection() {
           </motion.p>
         ))}
       </div>
+
       <TiltedImage />
     </div>
   )

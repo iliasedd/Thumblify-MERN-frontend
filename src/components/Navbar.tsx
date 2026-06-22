@@ -40,7 +40,7 @@ export default function Navbar() {
               My Generations
             </Link>
           ) : (
-            <Link to="#" className="hover:text-pink-300 transition">
+            <Link to="#contact" className="hover:text-pink-300 transition">
               Contact
             </Link>
           )}
@@ -97,7 +97,7 @@ export default function Navbar() {
             My Generations
           </Link>
         ) : (
-          <Link onClick={() => setIsOpen(false)} to="#">
+          <Link onClick={() => setIsOpen(false)} to="#contact">
             Contact
           </Link>
         )}

@@ -22,6 +22,7 @@ export default function CTASection() {
         >
           Ready to go viral ?
         </motion.h1>
+
         <motion.p
           className="bg-linear-to-r from-white to-pink-400 text-transparent bg-clip-text text-lg"
           initial={{ y: 80, opacity: 0 }}
@@ -32,6 +33,7 @@ export default function CTASection() {
           Your next favourite tool is just one click away.
         </motion.p>
       </div>
+
       <motion.button
         onClick={() => navigate("/generate")}
         className="px-12 py-3 text-slate-800 bg-white hover:bg-slate-200 rounded-full text-sm mt-4"
